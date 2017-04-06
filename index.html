@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="ISO-8859-1">
+
+<title>Draggable</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- JQuery -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    
+<style>
+    
+    .draggable { width: 40px; height: 40px; z-index: 10;}
+    .droppable { width: 43px; height: 43px; border: 1px solid #999; }
+    .trash {  width: 100px; height: 100px; border: 1px solid #999;}
+    
+</style>
+    
+<script type="text/javascript">
+    
+$( document ).ready(function()
+{
+	
+    makeBoard();
+    makePlayer1();
+    makePlayer2();
+
+});
+    
+function makeBoard()
+{
+    for (i = 0; i < 15; i++)
+    {
+        console.log("i = " + i);
+        makeRow(i);
+    }
+}
+    
+function makeRow()
+{
+    var markup = "<div class = 'row'>";
+	
+	for (j = 0; j < 15; j++)
+	{
+        if (i == 7 && j == 7) markup = markup + "<div class = 'droppable' id = 'center' style = 'float: left;'><span class = 'glyphicon glyphicon-star' align = 'center' style = 'width: 20px; height: 20px;'></span></div>";
+		else markup = markup + "<div class = 'droppable' style = 'float: left;'></div>";
+	}
+	
+	$('#board .panel-body .container').append(markup + "</div>");
+}
+    
+function makePlayer1()
+{
+    var markup = "";
+    
+    for (i = 0; i < 7; i++)
+    {
+        markup = markup + "<div class = 'droppable' id = '1_" + (i+1) + "'></div>";
+    }
+    
+    $('#player1 .panel-body .container').append(markup);
+}
+    
+function makePlayer2()
+{
+    var markup = "<div class = 'row'>";
+    
+    for (i = 0; i < 7; i++)
+    {
+        markup = markup + "<div class = 'droppable' id = '2_"+ (i+1) +"'></div>";
+    }
+    
+    $('#player2 .panel-body .container').append(markup + "</div>");
+}
+ 
+$( init );
+ 
+function init() 
+{
+    
+    $('.draggable').draggable
+    ({
+
+        snap: '.droppable',
+        snapmode: 'both',
+        snapTolerance: 20,
+        revert: 'invalid',
+        start: function (event, ui) 
+        {
+            lastPlace = $(this).parent();
+        }
+
+    });
+    
+    $('.droppable').droppable
+    ({
+        
+        drop: handleDropEvent
+        
+    });
+    
+    function handleDropEvent( event, ui ) 
+    {
+        
+        var dropped = ui.draggable;
+        var droppedOn = this;
+        
+        if ($(droppedOn).children().length > 0)
+        {
+            $(droppedOn).children().detach().prependTo($(lastPlace));
+        }
+        
+        $(dropped).detach().css
+        ({
+            top: 0,
+            left: 0
+        }).prependTo($(droppedOn));
+        
+    }
+    
+    $('.trash').droppable
+    ({
+        
+        drop: trashDropEvent
+        
+    });
+    
+    function trashDropEvent( event, ui ) 
+    {
+        ui.draggable.remove();
+    }
+    
+}
+ 
+</script>
+
+</head>
+
+<body>
+
+<div class = 'container'>
+    
+    <div class="page-header">
+        
+        <h1>Draggable Tiles <small>using jQuery</small></h1>
+        
+    </div>
+    
+    <div class = 'row'>
+        
+        <div class = 'col-sm-2'>
+        
+            <div class = 'panel panel-default' id = 'player1'>
+
+                <div class = 'panel-heading'>
+
+                    <h3 class="panel-title">Player 1</h3>
+
+                </div>
+
+                <div class = 'panel-body'>
+
+                    <div class = 'container'>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+        <div class = 'col-sm-8'>
+    
+            <div class = 'panel panel-default' id = 'board'>
+
+                <div class = 'panel-heading'>
+
+                    <h3 class="panel-title">Board1</h3>
+
+                </div>
+
+                <div class = 'panel-body'>
+
+                    <div class = 'container' style = ''>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+        <div class = 'col-sm-2'>
+
+            <div class = 'panel panel-default' id = 'player2'>
+
+                <div class = 'panel-heading'>
+
+                    <h3 class="panel-title">Player 2</h3>
+
+                </div>
+
+                <div class = 'panel-body'>
+
+                    <div class = 'container'>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <div class = 'row'>
+    
+        <div class = 'col-sm-4 col-sm-offset-2'>
+        
+            <div class = 'panel panel-danger'>
+            
+                <div class = 'panel-heading'>
+                
+                    <h3 class="panel-title">Trash</h3>
+                    
+                </div>
+            
+            </div>
+            
+            <div class = 'panel-body'>
+
+                    <div class = 'container'>
+
+                        <div class = 'trash'></div>
+                        
+                    </div>
+
+                </div>
+        
+        </div>
+    
+    </div>
+    
+    <hr>
+    
+    <div class = 'draggable' style = 'background: red;'></div>
+    <div class = 'draggable' style = 'background: green;'></div>
+    
+</div>
+
+</body>
+
+</html>
