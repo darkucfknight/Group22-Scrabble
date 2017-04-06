@@ -49,8 +49,30 @@ function makeRow()
 	
 	for (j = 0; j < 15; j++)
 	{
-        if (i == 7 && j == 7) markup = markup + "<div class = 'droppable' id = 'center' style = 'float: left;'><span class = 'glyphicon glyphicon-star' align = 'center' style = 'width: 20px; height: 20px;'></span></div>";
-		else markup = markup + "<div class = 'droppable' style = 'float: left;'></div>";
+		//center
+        if (i == 7 && j == 7) 
+        {
+        	markup = markup + "<div class = 'droppable' id = 'center' style = 'float: left;'><span class = 'glyphicon glyphicon-star' align = 'center' style = 'width: 20px; height: 20px;'></span></div>";
+        }
+        //triple word(orange)
+        else if(((i==0 || i==14) && (j==0 || j==14)) || (i==7 && (j==0 || j==14)) || (j==7 && (i==0 || i==14))) 
+        {
+        	markup = markup + "<div class = 'droppable' id = 'tripleWord' style = 'float: left; background-color: rgb(233,140,52);'></div>";
+        }
+        //double letter(?)(light blue)
+        else if(((i==0 || i==14) && (j==3 || j==11)) || ((i==3 || i==11) && (j==0 || j==14)) || ((i== 6|| i==8) && (j==2 || j==12)) || ((i==2 || i==12) && (j==6 || j==8)) || ((i==3 || i==11) && (j==7)) || ((i==7) && (j==3 || j==11)) ||((i==6 || i==8) && (j==6 || j==8))) 
+        {
+        	markup = markup + "<div class = 'droppable' id = 'tripleWord' style = 'float: left; background-color: rgb(183,215,215);'></div>";
+        }
+        //double word(?)(red) (tl, tr, bl, br)
+        else if(((j>0 && j<5) && (i>0 && i<5) && (i/j==1)) || ((j>9 && j<14) && (i>0 && i<5) && (i/(14-j)==1)) || ((j>0 && j<5) && (i>9 && i<14) && ((14-i)/j==1)) || ((j>9 && j<14) && (i>9 && i<14) && (i/j==1))) 
+        {
+        	markup = markup + "<div class = 'droppable' id = 'tripleWord' style = 'float: left; background-color: rgb(172,0,0);'></div>";
+        }
+		else 
+		{
+			markup = markup + "<div class = 'droppable' style = 'float: left;'></div>";
+		}
 	}
 	
 	$('#board .panel-body .container').append(markup + "</div>");
