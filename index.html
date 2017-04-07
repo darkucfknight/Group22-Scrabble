@@ -6,7 +6,7 @@
 
 <meta charset="ISO-8859-1">
 
-<title>Draggable</title>
+<title>Group 22 - Scrabble</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -38,7 +38,6 @@ function makeBoard()
 {
     for (i = 0; i < 15; i++)
     {
-        console.log("i = " + i);
         makeRow(i);
     }
 }
@@ -52,7 +51,7 @@ function makeRow()
 		//center
         if (i == 7 && j == 7) 
         {
-        	markup = markup + "<div class = 'droppable' id = 'center' style = 'float: left;'><span class = 'glyphicon glyphicon-star' align = 'center' style = 'width: 20px; height: 20px;'></span></div>";
+        	markup = markup + "<div class = 'droppable' id = 'center' style = 'float: left;'><img class='pull-left' style = 'width:100%;' src='ScrabbleResources/Images/tile_start_s.png'></div>";
         }
         //triple word(orange)
         else if(((i==0 || i==14) && (j==0 || j==14))  ||  (i==7 && (j==0 || j==14))  ||  (j==7 && (i==0 || i==14))) 
@@ -212,7 +211,7 @@ function init()
 
                 <div class = 'panel-heading'>
 
-                    <h3 class="panel-title">Board1</h3>
+                    <h3 class="panel-title"></h3>
 
                 </div>
 
@@ -284,7 +283,7 @@ function init()
     
     <hr>
     
-    <div class = 'draggable'><img class="pull-left" style = 'width:100%;' src="ScrabbleResources/Images/ScrabbleResources/Images/tile_A.png"></div>
+    <div class = 'draggable'><img class="pull-left" style = 'width:100%;' src="ScrabbleResources/Images/tile_A.png"></div>
     <div class = 'draggable' style = 'background: green;'></div>
     
 </div>
