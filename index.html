@@ -19,7 +19,8 @@
     
     .draggable { width: 40px; height: 40px; z-index: 10;}
     .droppable { width: 43px; height: 43px; border: 1px solid #999; }
-    .trash {  width: 100px; height: 100px; border: 1px solid #999;}
+    .trash {  width: 300px; height: 100px; border: 1px solid #999;}
+    .newPiece {  width: 300px; height: 100px; border: 1px solid #999;}
     
 </style>
     
@@ -112,19 +113,28 @@ $( init );
 function init() 
 {
     
-    $('.draggable').draggable
-    ({
-
-        snap: '.droppable',
-        snapmode: 'both',
-        snapTolerance: 20,
-        revert: 'invalid',
-        start: function (event, ui) 
-        {
-            lastPlace = $(this).parent();
-        }
-
-    });
+    // Intialize pieces for player one
+    for (i = 1; i <= 7; i++)
+    {
+        
+        $('#1_' + i).append(createRandPiece());
+    }
+    
+    // Intialize pieces for player two
+    for (i = 1; i <= 7; i++)
+    {
+        
+        $('#2_' + i).append(createRandPiece());
+    }
+    
+    // Intialize center square
+    $('#center').append(createRandPiece());
+    
+    
+    
+    // Makes those pieces draggable
+    
+    makePiecesDraggable();
     
     $('.droppable').droppable
     ({
@@ -164,6 +174,48 @@ function init()
         ui.draggable.remove();
     }
     
+}
+    
+function makePiecesDraggable()
+{
+    $('.draggable').draggable
+    ({
+
+        snap: '.droppable',
+        snapmode: 'both',
+        snapTolerance: 20,
+        revert: 'invalid',
+        start: function (event, ui) 
+        {
+            lastPlace = $(this).parent();
+        }
+
+    });
+}
+    
+
+    
+function randImage()
+{
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var randLetter = "";
+    
+    randLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+    
+    return "ScrabbleResources/Images/tile_" + randLetter + ".png";
+}
+    
+function newPiece()
+{
+    $('#newPieceBox').append(createRandPiece());
+    makePiecesDraggable();
+}
+    
+function createRandPiece()
+{
+    var aRandImage = randImage();
+    var text = "<div class = 'draggable'><img class='pull-left' style = 'width:100%;' src='" + aRandImage + "'></div>";
+    return text;
 }
  
 </script>
@@ -267,30 +319,49 @@ function init()
             
                 <div class = 'panel-heading'>
                 
-                    <h3 class="panel-title">Trash</h3>
+                    <h3 class="panel-title">Discard</h3>
                     
                 </div>
             
-            </div>
-            
-            <div class = 'panel-body'>
+                <div class = 'panel-body'>
 
                     <div class = 'container'>
 
-                        <div class = 'trash'></div>
+                        <div class = 'trash'>Discard tiles here</div>
+                        
+                    </div>
+
+                </div>
+                
+            </div>
+        
+        </div>
+        
+        <div class = 'col-sm-4'>
+        
+            <div class = 'panel panel-success'>
+            
+                <div class = 'panel-heading'>
+                
+                    <h3 class="panel-title">New Tiles</h3>
+                    
+                </div>
+            
+                <div class = 'panel-body'>
+
+                    <div class = 'container'>
+
+                        <div class = 'newPiece' onclick = 'newPiece()' id = 'newPieceBox'>Click here for a new tile</div>
                         
                     </div>
 
                 </div>
         
+            </div>
+            
         </div>
     
     </div>
-    
-    <hr>
-    
-    <div class = 'draggable'><img class="pull-left" style = 'width:100%;' src="ScrabbleResources/Images/tile_A.png"></div>
-    <div class = 'draggable' style = 'background: green;'></div>
     
 </div>
 
